@@ -341,10 +341,6 @@ a1b2c3d567890abcdef1234567890abcdef1234
 git show [コミットID]
 ```
 
-コミットIDは，`git log` コマンドの出力結果から確認できます．
-
----
-
 #### feature-add-learning-record-md ブランチの中身も確認
 
 ```bash
@@ -364,9 +360,6 @@ e4f5g6h890abcdef1234567890abcdef12345678
 ```bash
 git show [コミットID]
 ```
-
-コミットIDは，`git log` コマンドの出力結果から確認できます．
----
 
 ### ステップ3-C：HEAD の中身を見る
 
