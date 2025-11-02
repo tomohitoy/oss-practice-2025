@@ -5,14 +5,6 @@
 この回では，Gitの「ブランチ」機能について学びます．
 ブランチを使うことで，複数の作業を並行して進めたり，メインの作業に影響を与えずに新しい機能を試したりできるようになります．
 
-## 事前に考えてみよう 🤔
-
-これから，main ブランチから「新機能用」と「バグ修正用」の2つのブランチを作成し，それぞれでコミットを行う実習をします．
-
-**質問：** この作業が終わった後，`git log` で履歴を表示したら，コミットは一本の直線に見えると思いますか？ それとも別の形に見えると思いますか？
-
-答えは実習の最後に確認しましょう！
-
 ## ブランチとは？
 
 ブランチとは，日本語で「枝」という意味です．
@@ -48,23 +40,25 @@ pwd
 
 ## 実習1：並行作業シミュレーション（分岐の作成）
 
+この実習では，main ブランチから2つのブランチを作成し，それぞれで異なる作業を行います．
+
 ### ステップ1-A：新機能用ブランチでの作業
 
-まず，新機能を追加するためのブランチを作成します．
+まず，学習記録を追加するためのブランチを作成します．
 
 #### 1. ブランチを作成する
 
 ```bash
-git branch feature/add-profile
+git branch feature-add-learning-record-md
 ```
 
-このコマンドで `feature/add-profile` という名前のブランチが作成されます．
+このコマンドで `feature-add-learning-record-md` という名前のブランチが作成されます．
 まだ移動はしていません．
 
 #### 2. 作成したブランチに移動する
 
 ```bash
-git switch feature/add-profile
+git switch feature-add-learning-record-md
 ```
 
 **ポイント**：`git switch` は，ブランチを切り替えるコマンドです．
@@ -75,37 +69,56 @@ git switch feature/add-profile
 git branch
 ```
 
-`feature/add-profile` の前に `*` マークがついていれば，そのブランチにいることがわかります．
+`feature-add-learning-record-md` の前に `*` マークがついていれば，そのブランチにいることがわかります．
 
 #### 4. 新しいファイルを作成
 
-`profile.txt` というファイルを作成し，自己紹介を書きましょう．
+`LEARNING_RECORD.md` というファイルを作成し，今日の学習内容を記録しましょう．
+
+以下のコマンドで作成できます：
 
 ```bash
-echo "名前：山田太郎" > profile.txt
-echo "学年：1年" >> profile.txt
-echo "趣味：プログラミング" >> profile.txt
+cat > LEARNING_RECORD.md << 'EOF'
+# 学習記録
+
+## 日付
+
+2025年11月2日
+
+## 学習内容
+
+今日はGitのブランチ機能について学習しました．
+
+### 学んだこと
+
+- ブランチの作成方法
+- ブランチの切り替え方法
+- 複数のブランチでの並行作業
+
+### 感想
+
+ブランチを使うことで，安全に新しい機能を試せることがわかりました．
+とても便利な機能だと思います．
+EOF
 ```
 
 または，お好きなテキストエディタで作成してもOKです：
 
 ```bash
-nano profile.txt
-# または
-code profile.txt  # VS Codeの場合
+nano LEARNING_RECORD.md
 ```
 
 #### 5. ファイルの中身を確認
 
 ```bash
-cat profile.txt
+cat LEARNING_RECORD.md
 ```
 
 #### 6. 変更をステージング＆コミット
 
 ```bash
-git add profile.txt
-git commit -m "feat: Add profile"
+git add LEARNING_RECORD.md
+git commit -m "feat: Add learning record"
 ```
 
 **ポイント**：コミットメッセージの `feat:` は，「新機能（feature）を追加した」という意味の接頭辞です．
@@ -114,7 +127,7 @@ git commit -m "feat: Add profile"
 
 ### ステップ1-B：バグ修正用ブランチでの作業
 
-次に，別のブランチでバグ修正を行います．
+次に，別のブランチでドキュメントのtypoを修正します．
 ここが重要なポイントです！
 
 #### 1. main ブランチに戻る
@@ -123,14 +136,14 @@ git commit -m "feat: Add profile"
 git switch main
 ```
 
-#### 2. profile.txt が消えたことを確認
+#### 2. LEARNING_RECORD.md が消えたことを確認
 
 ```bash
 ls
 ```
 
-あれ？さっき作った `profile.txt` がありませんね？
-これは，`feature/add-profile` ブランチにいたときだけ存在するファイルだからです．
+あれ？さっき作った `LEARNING_RECORD.md` がありませんね？
+これは，`feature-add-learning-record-md` ブランチにいたときだけ存在するファイルだからです．
 **ブランチごとに，ファイルの状態が隔離されています．**
 
 #### 3. 新しいブランチを作成
@@ -138,38 +151,65 @@ ls
 main ブランチから，今度はバグ修正用のブランチを作成します．
 
 ```bash
-git branch bugfix/fix-readme
+git branch bugfix-typos-on-docs-md
 ```
 
 #### 4. バグ修正ブランチに移動
 
 ```bash
-git switch bugfix/fix-readme
+git switch bugfix-typos-on-docs-md
 ```
 
-#### 5. README.md を編集
+#### 5. DOCS.md を確認
 
-このディレクトリには README.md（この資料）があります．
-何か小さな変更を加えてみましょう（例：タイトルに絵文字を追加，説明を追加など）．
+このディレクトリには `DOCS.md` というファイルがあります．
+中身を確認してみましょう：
 
 ```bash
-# ファイルの最後に何か追加
-echo "" >> README.md
-echo "## 補足" >> README.md
-echo "この資料は2025年度の講義で使用しています．" >> README.md
+cat DOCS.md
 ```
 
-または，エディタで直接編集してもOKです：
+このファイルには，いくつかのtypo（タイプミス）があります．
+探してみましょう！
+
+#### 6. DOCS.md を編集
+
+typoを修正します．以下のいずれかの方法で編集してください：
+
+**方法1：エディタで直接編集**
 
 ```bash
-nano README.md
+nano DOCS.md
 ```
 
-#### 6. 変更をステージング＆コミット
+以下のtypoを修正してください：
+- 「あたえずに」→「与えずに」
+- 「記録されてます」→「記録されています」
+
+**方法2：sedコマンドで一括修正（上級者向け）**
 
 ```bash
-git add README.md
-git commit -m "fix: Fix typo in README"
+sed -i.bak 's/あたえずに/与えずに/g' DOCS.md
+sed -i.bak 's/記録されてます/記録されています/g' DOCS.md
+```
+
+#### 7. 修正内容を確認
+
+```bash
+cat DOCS.md
+```
+
+または，修正箇所だけを確認：
+
+```bash
+git diff
+```
+
+#### 8. 変更をステージング＆コミット
+
+```bash
+git add DOCS.md
+git commit -m "fix: Fix typos in DOCS.md"
 ```
 
 **ポイント**：コミットメッセージの `fix:` は，「バグ修正」という意味の接頭辞です．
@@ -198,10 +238,10 @@ git log --oneline --graph --all
 #### 出力例
 
 ```
-* 1a2b3c4 (bugfix/fix-readme) fix: Fix typo in README
-| * 4d5e6f7 (feature/add-profile) feat: Add profile
+* a1b2c3d (bugfix-typos-on-docs-md) fix: Fix typos in DOCS.md
+| * e4f5g6h (feature-add-learning-record-md) feat: Add learning record
 |/
-* 9f2cabc (HEAD -> main) Initial commit
+* 9f2cabc (HEAD -> main) feat: Add chapter 6 - Git branch tutorial
 ```
 
 **見方**：
@@ -210,8 +250,6 @@ git log --oneline --graph --all
 - `|` や `/` が分岐を表しています
 - main のコミットから，歴史が2つに分かれているのが見えます！
 
-**冒頭の質問の答え**：コミットは一本の直線ではなく，**分岐した形**に見えます！
-
 ---
 
 ### ステップ2-B：ブランチ間の「差分」を確認
@@ -219,19 +257,19 @@ git log --oneline --graph --all
 #### main と feature ブランチの差分
 
 ```bash
-git diff main feature/add-profile
+git diff main feature-add-learning-record-md
 ```
 
-これで，main ブランチと feature/add-profile ブランチの間で何が違うかが表示されます．
-`+profile.txt` が表示され，profile.txt が追加されていることがわかります．
+これで，main ブランチと feature-add-learning-record-md ブランチの間で何が違うかが表示されます．
+`LEARNING_RECORD.md` が追加されていることがわかります．
 
 #### main と bugfix ブランチの差分
 
 ```bash
-git diff main bugfix/fix-readme
+git diff main bugfix-typos-on-docs-md
 ```
 
-README.md の変更内容が表示されます．
+DOCS.md の修正内容が表示されます．
 
 ---
 
@@ -258,21 +296,11 @@ ls -R .git/refs/heads
 
 ```
 main
-feature
-bugfix
+feature-add-learning-record-md
+bugfix-typos-on-docs-md
 ```
 
-または：
-
-```
-main
-feature/
-  add-profile
-bugfix/
-  fix-readme
-```
-
-見てください！私たちが作ったブランチ名のファイルやディレクトリがありますね．
+見てください！私たちが作ったブランチ名のファイルがありますね．
 
 ---
 
@@ -295,13 +323,13 @@ cat .git/refs/heads/main
 #### bugfix ブランチの中身を確認
 
 ```bash
-cat .git/refs/heads/bugfix/fix-readme
+cat .git/refs/heads/bugfix-typos-on-docs-md
 ```
 
 **出力例**：
 
 ```
-1a2b3c4567890abcdef1234567890abcdef1234
+a1b2c3d567890abcdef1234567890abcdef1234
 ```
 
 これも**コミットID**です！
@@ -309,16 +337,50 @@ cat .git/refs/heads/bugfix/fix-readme
 #### feature ブランチの中身も確認
 
 ```bash
-cat .git/refs/heads/feature/add-profile
+cat .git/refs/heads/feature-add-learning-record-md
 ```
 
 **出力例**：
 
 ```
-4d5e6f7890abcdef1234567890abcdef12345678
+e4f5g6h890abcdef1234567890abcdef12345678
 ```
 
 これも**コミットID**です！
+
+---
+
+### ステップ3-C：HEAD の中身を見る
+
+最後に，`HEAD` という特殊なポインタの中身を見てみましょう．
+
+```bash
+cat .git/HEAD
+```
+
+**出力例**：
+
+```
+ref: refs/heads/bugfix-typos-on-docs-md
+```
+
+`HEAD` は，「今いるブランチ」を指すポインタです．
+この例では，`bugfix-typos-on-docs-md` ブランチにいることがわかります．
+
+別のブランチに切り替えて，もう一度確認してみましょう：
+
+```bash
+git switch main
+cat .git/HEAD
+```
+
+**出力例**：
+
+```
+ref: refs/heads/main
+```
+
+`HEAD` の指す先が変わりましたね！
 
 ---
 
@@ -328,6 +390,7 @@ cat .git/refs/heads/feature/add-profile
 
 - ブランチは「軽量なポインタ」と呼ばれます
 - 実際には，特定のコミットを指し示す小さなテキストファイルに過ぎません
+- `HEAD` は，「現在いるブランチ」を指すポインタです
 - だからこそ，ブランチの作成や切り替えが非常に高速にできるのです
 
 ---
@@ -341,6 +404,8 @@ cat .git/refs/heads/feature/add-profile
 - **`git branch`**：ブランチの一覧を表示（`*` が現在のブランチ）
 - **`git log --oneline --graph --all`**：ブランチの分岐を可視化
 - **`git diff ブランチ1 ブランチ2`**：ブランチ間の差分を表示
+- **`cat .git/refs/heads/ブランチ名`**：ブランチの実体（コミットID）を表示
+- **`cat .git/HEAD`**：現在いるブランチを表示
 
 ### ブランチの仕組み
 
@@ -348,95 +413,116 @@ cat .git/refs/heads/feature/add-profile
 2. 実体は `.git/refs/heads` にあるテキストファイル
 3. ブランチを切り替えると，作業ディレクトリのファイルも変わる
 4. 複数のブランチで並行作業ができる
+5. `HEAD` は，現在いるブランチを指す特殊なポインタ
 
 ---
 
-## 課題：ブランチの探求と可視化
+## 課題
 
-### 課題内容
+演習内で実施した以下のコマンドの出力結果を課題として提出してください．
 
-あなたの学籍番号を使って，ブランチを作成し，可視化してみましょう．
+### 提出するコマンドと出力
 
-#### ステップ1：main ブランチに戻る
-
-```bash
-git switch main
-```
-
-#### ステップ2：自分の学籍番号でブランチを作成
-
-```bash
-git branch add-profile-[あなたの学籍番号]
-```
-
-例：学籍番号が `123456` の場合
-
-```bash
-git branch add-profile-123456
-```
-
-#### ステップ3：作成したブランチに移動
-
-```bash
-git switch add-profile-[あなたの学籍番号]
-```
-
-#### ステップ4：自己紹介ファイルを作成
-
-`my-profile.txt` というファイルを作成し，自己紹介を書きましょう．
-
-```bash
-nano my-profile.txt
-# または
-code my-profile.txt
-```
-
-内容例：
-
-```
-名前：[あなたの名前]
-学籍番号：[あなたの学籍番号]
-学年：1年
-学科：[あなたの学科]
-趣味：[あなたの趣味]
-好きなプログラミング言語：[あなたの回答]
-```
-
-#### ステップ5：変更をコミット
-
-```bash
-git add my-profile.txt
-git commit -m "feat: Add my profile"
-```
-
-#### ステップ6：ブランチの可視化
+#### 1. ブランチの可視化
 
 ```bash
 git log --oneline --graph --all
 ```
 
-#### ステップ7：ブランチの実体を確認
-
-```bash
-cat .git/refs/heads/add-profile-[あなたの学籍番号]
-```
-
-#### ステップ8：スクリーンショットを撮影
-
-以下の2つのコマンドの実行結果をスクリーンショットで撮影してください：
-
-1. `git log --oneline --graph --all` の結果
-2. `cat .git/refs/heads/add-profile-[あなたの学籍番号]` の結果
+このコマンドの出力結果をコピーして提出してください．
 
 ---
 
-### 提出物
+#### 2. main と feature ブランチの差分
 
-以下を提出してください：
+```bash
+git diff main feature-add-learning-record-md
+```
 
-1. **スクリーンショット1**：`git log --oneline --graph --all` の実行結果
-2. **スクリーンショット2**：`cat .git/refs/heads/add-profile-[あなたの学籍番号]` の実行結果
-3. **感想**（任意）：ブランチの仕組みについて学んだことや，疑問に思ったことを自由に書いてください（200字程度）
+このコマンドの出力結果をコピーして提出してください．
+
+---
+
+#### 3. main と bugfix ブランチの差分
+
+```bash
+git diff main bugfix-typos-on-docs-md
+```
+
+このコマンドの出力結果をコピーして提出してください．
+
+---
+
+#### 4. main ブランチの実体
+
+```bash
+cat .git/refs/heads/main
+```
+
+このコマンドの出力結果をコピーして提出してください．
+
+---
+
+#### 5. bugfix ブランチの実体
+
+```bash
+cat .git/refs/heads/bugfix-typos-on-docs-md
+```
+
+このコマンドの出力結果をコピーして提出してください．
+
+---
+
+#### 6. HEAD の中身
+
+```bash
+cat .git/HEAD
+```
+
+このコマンドの出力結果をコピーして提出してください．
+
+---
+
+### 提出方法
+
+上記6つのコマンドの出力結果を，以下の形式でテキストファイルにまとめて提出してください．
+
+```
+第6回課題：Gitブランチ実習
+
+学籍番号：[あなたの学籍番号]
+氏名：[あなたの氏名]
+
+1. git log --oneline --graph --all
+---
+[出力結果をここに貼り付け]
+---
+
+2. git diff main feature-add-learning-record-md
+---
+[出力結果をここに貼り付け]
+---
+
+3. git diff main bugfix-typos-on-docs-md
+---
+[出力結果をここに貼り付け]
+---
+
+4. cat .git/refs/heads/main
+---
+[出力結果をここに貼り付け]
+---
+
+5. cat .git/refs/heads/bugfix-typos-on-docs-md
+---
+[出力結果をここに貼り付け]
+---
+
+6. cat .git/HEAD
+---
+[出力結果をここに貼り付け]
+---
+```
 
 ---
 
@@ -465,6 +551,14 @@ git branch -a
 ```
 
 これで，ローカルだけでなく，リモートのブランチも表示されます．
+
+### ブランチの履歴をより詳しく見る
+
+```bash
+git log --oneline --graph --all --decorate
+```
+
+`--decorate` オプションで，ブランチやタグの情報がより詳しく表示されます．
 
 ---
 
