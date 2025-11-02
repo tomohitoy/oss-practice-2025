@@ -62,28 +62,6 @@ git branch
 
 ---
 
-## 実習の準備
-
-### リポジトリの確認
-
-まず，このリポジトリのchap06ディレクトリにいることを確認しましょう．
-
-```bash
-cd /path/to/oss-practice-2025/chap06
-```
-
-現在のブランチを確認：
-
-```bash
-git branch
-```
-
-現在地を確認：
-
-```bash
-pwd
-```
-
 ## 実習1：並行作業シミュレーション（分岐の作成）
 
 この実習では，main-06 ブランチから2つのブランチを作成し，それぞれで異なる作業を行います．
@@ -93,6 +71,14 @@ pwd
 まず，学習記録を追加するためのブランチを作成します．
 
 #### 1. ブランチを作成する
+
+実習のディレクトリに移動します
+
+```bash
+cd chap06
+```
+
+ブランチを作成します
 
 ```bash
 git branch feature-add-learning-record-md
@@ -182,13 +168,13 @@ ls
 main-06 ブランチから，今度はバグ修正用のブランチを作成します．
 
 ```bash
-git branch bugfix-typos-on-docs-md
+git branch bugfix-typos-on-doc-md
 ```
 
 #### 4. バグ修正ブランチに移動
 
 ```bash
-git switch bugfix-typos-on-docs-md
+git switch bugfix-typos-on-doc-md
 ```
 
 #### 5. DOC.md を確認
@@ -256,7 +242,7 @@ git log --oneline --graph --all
 #### 出力例
 
 ```
-* a1b2c3d (bugfix-typos-on-docs-md) fix: Fix typos in DOCS.md
+* a1b2c3d (bugfix-typos-on-doc-md) fix: Fix typos in DOC.md
 | * e4f5g6h (feature-add-learning-record-md) feat: Add learning record
 |/
 * 9f2cabc (HEAD -> main-06) feat: Add chapter 6 - Git branch tutorial
@@ -281,13 +267,13 @@ git diff main-06 feature-add-learning-record-md
 これで，main-06 ブランチと feature-add-learning-record-md ブランチの間で何が違うかが表示されます．
 `LEARNING_RECORD.md` が追加されていることがわかります．
 
-#### main-06 と bugfix-typos-on-docs-md ブランチの差分
+#### main-06 と bugfix-typos-on-doc-md ブランチの差分
 
 ```bash
-git diff main-06 bugfix-typos-on-docs-md
+git diff main-06 bugfix-typos-on-doc-md
 ```
 
-DOCS.md の修正内容が表示されます．
+DOC.md の修正内容が表示されます．
 
 ---
 
@@ -301,21 +287,18 @@ DOCS.md の修正内容が表示されます．
 #### ブランチファイルの一覧を表示
 
 ```bash
+cd .. # 作業ディレクトリのルートに移動
+ls -a # 作業ディレクトリのルートにいるかを確認
 ls .git/refs/heads
-```
-
-または，ディレクトリ構造も含めて表示：
-
-```bash
-ls -R .git/refs/heads
 ```
 
 **出力例**：
 
 ```
+main
 main-06
 feature-add-learning-record-md
-bugfix-typos-on-docs-md
+bugfix-typos-on-doc-md
 ```
 
 見てください！私たちが作ったブランチ名のファイルがありますね．
@@ -338,10 +321,10 @@ cat .git/refs/heads/main-06
 
 これは**コミットID**（コミットハッシュ）です！
 
-#### bugfix-typos-on-docs-md ブランチの中身を確認
+#### bugfix-typos-on-doc-md ブランチの中身を確認
 
 ```bash
-cat .git/refs/heads/bugfix-typos-on-docs-md
+cat .git/refs/heads/bugfix-typos-on-doc-md
 ```
 
 **出力例**：
@@ -352,7 +335,17 @@ a1b2c3d567890abcdef1234567890abcdef1234
 
 これも**コミットID**です！
 
-#### feature ブランチの中身も確認
+#### bugfix-typos-on-doc-md の最新コミットを確認
+
+```bash
+git show [コミットID]
+```
+
+コミットIDは，`git log` コマンドの出力結果から確認できます．
+
+---
+
+#### feature-add-learning-record-md ブランチの中身も確認
 
 ```bash
 cat .git/refs/heads/feature-add-learning-record-md
@@ -366,6 +359,13 @@ e4f5g6h890abcdef1234567890abcdef12345678
 
 これも**コミットID**です！
 
+#### feature-add-learning-record-md の最新コミットを確認
+
+```bash
+git show [コミットID]
+```
+
+コミットIDは，`git log` コマンドの出力結果から確認できます．
 ---
 
 ### ステップ3-C：HEAD の中身を見る
@@ -379,11 +379,11 @@ cat .git/HEAD
 **出力例**：
 
 ```
-ref: refs/heads/bugfix-typos-on-docs-md
+ref: refs/heads/bugfix-typos-on-doc-md
 ```
 
 `HEAD` は，「今いるブランチ」を指すポインタです．
-この例では，`bugfix-typos-on-docs-md` ブランチにいることがわかります．
+この例では，`bugfix-typos-on-doc-md` ブランチにいることがわかります．
 
 別のブランチに切り替えて，もう一度確認してみましょう：
 
@@ -424,6 +424,7 @@ ref: refs/heads/main-06
 - **`git diff ブランチ1 ブランチ2`**：ブランチ間の差分を表示
 - **`cat .git/refs/heads/ブランチ名`**：ブランチの実体（コミットID）を表示
 - **`cat .git/HEAD`**：現在いるブランチを表示
+- **`git show コミットID`**：コミットの詳細を表示
 
 ### ブランチの仕組み
 
@@ -432,115 +433,6 @@ ref: refs/heads/main-06
 3. ブランチを切り替えると，作業ディレクトリのファイルも変わる
 4. 複数のブランチで並行作業ができる
 5. `HEAD` は，現在いるブランチを指す特殊なポインタ
-
----
-
-## 課題
-
-演習内で実施した以下のコマンドの出力結果を課題として提出してください．
-
-### 提出するコマンドと出力
-
-#### 1. ブランチの可視化
-
-```bash
-git log --oneline --graph --all
-```
-
-このコマンドの出力結果をコピーして提出してください．
-
----
-
-#### 2. main-06 と feature-add-learning-record-md ブランチの差分
-
-```bash
-git diff main-06 feature-add-learning-record-md
-```
-
-このコマンドの出力結果をコピーして提出してください．
-
----
-
-#### 3. main-06 と bugfix-typos-on-docs-md ブランチの差分
-
-```bash
-git diff main-06 bugfix-typos-on-docs-md
-```
-
-このコマンドの出力結果をコピーして提出してください．
-
----
-
-#### 4. main-06 ブランチの実体
-
-```bash
-cat .git/refs/heads/main-06
-```
-
-このコマンドの出力結果をコピーして提出してください．
-
----
-
-#### 5. bugfix-typos-on-docs-md ブランチの実体
-
-```bash
-cat .git/refs/heads/bugfix-typos-on-docs-md
-```
-
-このコマンドの出力結果をコピーして提出してください．
-
----
-
-#### 6. HEAD の中身
-
-```bash
-cat .git/HEAD
-```
-
-このコマンドの出力結果をコピーして提出してください．
-
----
-
-### 提出方法
-
-上記6つのコマンドの出力結果を，以下の形式でテキストファイルにまとめて提出してください．
-
-```
-第6回課題：Gitブランチ実習
-
-学籍番号：[あなたの学籍番号]
-氏名：[あなたの氏名]
-
-1. git log --oneline --graph --all
----
-[出力結果をここに貼り付け]
----
-
-2. git diff main-06 feature-add-learning-record-md
----
-[出力結果をここに貼り付け]
----
-
-3. git diff main-06 bugfix-typos-on-docs-md
----
-[出力結果をここに貼り付け]
----
-
-4. cat .git/refs/heads/main-06
----
-[出力結果をここに貼り付け]
----
-
-5. cat .git/refs/heads/bugfix-typos-on-docs-md
----
-[出力結果をここに貼り付け]
----
-
-6. cat .git/HEAD
----
-[出力結果をここに貼り付け]
----
-```
 
 ---
 
