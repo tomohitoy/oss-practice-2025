@@ -40,7 +40,7 @@ pwd
 
 ## 実習1：並行作業シミュレーション（分岐の作成）
 
-この実習では，main ブランチから2つのブランチを作成し，それぞれで異なる作業を行います．
+この実習では，main-06 ブランチから2つのブランチを作成し，それぞれで異なる作業を行います．
 
 ### ステップ1-A：新機能用ブランチでの作業
 
@@ -130,10 +130,10 @@ git commit -m "feat: Add learning record"
 次に，別のブランチでドキュメントのtypoを修正します．
 ここが重要なポイントです！
 
-#### 1. main ブランチに戻る
+#### 1. main-06 ブランチに戻る
 
 ```bash
-git switch main
+git switch main-06
 ```
 
 #### 2. LEARNING_RECORD.md が消えたことを確認
@@ -148,7 +148,7 @@ ls
 
 #### 3. 新しいブランチを作成
 
-main ブランチから，今度はバグ修正用のブランチを作成します．
+main-06 ブランチから，今度はバグ修正用のブランチを作成します．
 
 ```bash
 git branch bugfix-typos-on-docs-md
@@ -228,32 +228,32 @@ git log --oneline --graph --all
 * a1b2c3d (bugfix-typos-on-docs-md) fix: Fix typos in DOCS.md
 | * e4f5g6h (feature-add-learning-record-md) feat: Add learning record
 |/
-* 9f2cabc (HEAD -> main) feat: Add chapter 6 - Git branch tutorial
+* 9f2cabc (HEAD -> main-06) feat: Add chapter 6 - Git branch tutorial
 ```
 
 **見方**：
 
 - `*` がコミットを表しています
 - `|` や `/` が分岐を表しています
-- main のコミットから，歴史が2つに分かれているのが見えます！
+- main-06 のコミットから，歴史が2つに分かれているのが見えます！
 
 ---
 
 ### ステップ2-B：ブランチ間の「差分」を確認
 
-#### main と feature ブランチの差分
+#### main-06 と feature-add-learning-record-md ブランチの差分
 
 ```bash
-git diff main feature-add-learning-record-md
+git diff main-06 feature-add-learning-record-md
 ```
 
-これで，main ブランチと feature-add-learning-record-md ブランチの間で何が違うかが表示されます．
+これで，main-06 ブランチと feature-add-learning-record-md ブランチの間で何が違うかが表示されます．
 `LEARNING_RECORD.md` が追加されていることがわかります．
 
-#### main と bugfix ブランチの差分
+#### main-06 と bugfix-typos-on-docs-md ブランチの差分
 
 ```bash
-git diff main bugfix-typos-on-docs-md
+git diff main-06 bugfix-typos-on-docs-md
 ```
 
 DOCS.md の修正内容が表示されます．
@@ -282,7 +282,7 @@ ls -R .git/refs/heads
 **出力例**：
 
 ```
-main
+main-06
 feature-add-learning-record-md
 bugfix-typos-on-docs-md
 ```
@@ -293,10 +293,10 @@ bugfix-typos-on-docs-md
 
 ### ステップ3-B：ポインタの中身を見る
 
-#### main ブランチの中身を確認
+#### main-06 ブランチの中身を確認
 
 ```bash
-cat .git/refs/heads/main
+cat .git/refs/heads/main-06
 ```
 
 **出力例**：
@@ -307,7 +307,7 @@ cat .git/refs/heads/main
 
 これは**コミットID**（コミットハッシュ）です！
 
-#### bugfix ブランチの中身を確認
+#### bugfix-typos-on-docs-md ブランチの中身を確認
 
 ```bash
 cat .git/refs/heads/bugfix-typos-on-docs-md
@@ -357,14 +357,14 @@ ref: refs/heads/bugfix-typos-on-docs-md
 別のブランチに切り替えて，もう一度確認してみましょう：
 
 ```bash
-git switch main
+git switch main-06
 cat .git/HEAD
 ```
 
 **出力例**：
 
 ```
-ref: refs/heads/main
+ref: refs/heads/main-06
 ```
 
 `HEAD` の指す先が変わりましたね！
@@ -420,37 +420,37 @@ git log --oneline --graph --all
 
 ---
 
-#### 2. main と feature ブランチの差分
+#### 2. main-06 と feature-add-learning-record-md ブランチの差分
 
 ```bash
-git diff main feature-add-learning-record-md
+git diff main-06 feature-add-learning-record-md
 ```
 
 このコマンドの出力結果をコピーして提出してください．
 
 ---
 
-#### 3. main と bugfix ブランチの差分
+#### 3. main-06 と bugfix-typos-on-docs-md ブランチの差分
 
 ```bash
-git diff main bugfix-typos-on-docs-md
+git diff main-06 bugfix-typos-on-docs-md
 ```
 
 このコマンドの出力結果をコピーして提出してください．
 
 ---
 
-#### 4. main ブランチの実体
+#### 4. main-06 ブランチの実体
 
 ```bash
-cat .git/refs/heads/main
+cat .git/refs/heads/main-06
 ```
 
 このコマンドの出力結果をコピーして提出してください．
 
 ---
 
-#### 5. bugfix ブランチの実体
+#### 5. bugfix-typos-on-docs-md ブランチの実体
 
 ```bash
 cat .git/refs/heads/bugfix-typos-on-docs-md
@@ -485,17 +485,17 @@ cat .git/HEAD
 [出力結果をここに貼り付け]
 ---
 
-2. git diff main feature-add-learning-record-md
+2. git diff main-06 feature-add-learning-record-md
 ---
 [出力結果をここに貼り付け]
 ---
 
-3. git diff main bugfix-typos-on-docs-md
+3. git diff main-06 bugfix-typos-on-docs-md
 ---
 [出力結果をここに貼り付け]
 ---
 
-4. cat .git/refs/heads/main
+4. cat .git/refs/heads/main-06
 ---
 [出力結果をここに貼り付け]
 ---
