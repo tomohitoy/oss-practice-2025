@@ -1,4 +1,4 @@
-# 第6回：Gitブランチ実習（探求編）
+# 第6回：Gitブランチ実習
 
 ## この回で学ぶこと
 
@@ -160,43 +160,30 @@ git branch bugfix-typos-on-docs-md
 git switch bugfix-typos-on-docs-md
 ```
 
-#### 5. DOCS.md を確認
+#### 5. DOC.md を確認
 
-このディレクトリには `DOCS.md` というファイルがあります．
+このディレクトリには `DOC.md` というファイルがあります．
 中身を確認してみましょう：
 
 ```bash
-cat DOCS.md
+cat DOC.md
 ```
 
-このファイルには，いくつかのtypo（タイプミス）があります．
-探してみましょう！
+このファイルには，いくつかのtypo（タイプミス）や間違いがあります．
+探してみましょう．
 
-#### 6. DOCS.md を編集
+#### 6. DOC.md を編集
 
 typoを修正します．以下のいずれかの方法で編集してください：
 
-**方法1：エディタで直接編集**
+**方法：テキストエディタで編集**
 
-```bash
-nano DOCS.md
-```
-
-以下のtypoを修正してください：
-- 「あたえずに」→「与えずに」
-- 「記録されてます」→「記録されています」
-
-**方法2：sedコマンドで一括修正（上級者向け）**
-
-```bash
-sed -i.bak 's/あたえずに/与えずに/g' DOCS.md
-sed -i.bak 's/記録されてます/記録されています/g' DOCS.md
-```
+- テキストエディタで DOC.md を開き，誤字や間違いを修正しましょう．そして，保存しましょう．
 
 #### 7. 修正内容を確認
 
 ```bash
-cat DOCS.md
+cat DOC.md
 ```
 
 または，修正箇所だけを確認：
@@ -208,8 +195,8 @@ git diff
 #### 8. 変更をステージング＆コミット
 
 ```bash
-git add DOCS.md
-git commit -m "fix: Fix typos in DOCS.md"
+git add DOC.md
+git commit -m "fix: Fix typos in DOC.md"
 ```
 
 **ポイント**：コミットメッセージの `fix:` は，「バグ修正」という意味の接頭辞です．
@@ -566,8 +553,6 @@ git log --oneline --graph --all --decorate
 
 - [Git公式ドキュメント - ブランチとは](https://git-scm.com/book/ja/v2/Git-%E3%81%AE%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81%E6%A9%9F%E8%83%BD-%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81%E3%81%A8%E3%81%AF)
 - [Gitブランチの図解](https://learngitbranching.js.org/?locale=ja)
-
----
 
 お疲れさまでした！ブランチの基本を理解できましたか？
 次回は，ブランチを統合する「マージ」について学びます．
