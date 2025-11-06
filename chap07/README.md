@@ -914,8 +914,77 @@ add-my-keyword had recent pushes X minutes ago
 
 ### 提出方法
 
-次回の講義で学ぶ**Pull Request**を通じて提出します．
-（今回はPushまでで完了です）
+ブラックボードの指定された課題に，**作成したブランチのkeywordsディレクトリへの直接リンク（URL）を提出**してください．
+
+#### ステップ1：URLを作成する
+
+以下のパターンでURLを作成します：
+
+```
+https://github.com/[あなたのGitHubユーザー名]/oss-template-2025/tree/add-my-keyword/keywords
+```
+
+**例**：
+
+- GitHubユーザー名が `taro-yamada` の場合
+- ブランチ名が `add-my-keyword` の場合
+
+```
+https://github.com/taro-yamada/oss-template-2025/tree/add-my-keyword/keywords
+```
+
+**重要**：
+
+- `[あなたのGitHubユーザー名]` を自分のGitHubユーザー名に置き換えてください
+- `add-my-keyword` を自分が作成したブランチ名に置き換えてください（通常は `add-my-keyword`）
+
+#### ステップ2：URLの確認
+
+作成したURLをブラウザで開いて，以下を確認してください：
+
+- ✅ 自分のリポジトリの `keywords` ディレクトリが表示される
+- ✅ ブランチ名が `add-my-keyword`（または自分が作成したブランチ名）になっている
+- ✅ 自分が作成したファイル（例：`open-source.md`）が表示されている
+
+#### ステップ3：ファイルの内容を確認
+
+`keywords` ディレクトリに表示されている自分のファイルをクリックして，内容を確認してください：
+
+- ✅ キーワード名（タイトル）が正しく表示されている
+- ✅ 説明が200文字以上ある
+- ✅ 参考文献が記載されている
+- ✅ 作成者情報（氏名・学籍番号）が正しい
+
+#### ステップ4：ブラックボードに提出
+
+確認したURLを，ブラックボードの指定された課題に提出してください．
+
+**提出するURL例**：
+
+```
+https://github.com/taro-yamada/oss-template-2025/tree/add-my-keyword/keywords
+```
+
+**注意事項**：
+
+- URLは必ず自分のGitHubアカウントのもの（`あなたのユーザー名/oss-template-2025`）を提出してください
+- 元のリポジトリ（`tomohitoy/oss-template-2025`）のURLではありません
+- ブランチ名は `main` ではなく，作成したブランチ名（通常は `add-my-keyword`）にしてください
+
+#### トラブルシューティング
+
+**「404 Page not found」と表示される場合**：
+
+1. GitHubユーザー名が正しいか確認
+2. リポジトリ名が `oss-template-2025` になっているか確認
+3. ブランチ名が正しいか確認（`add-my-keyword`）
+4. 実習3-Eで `git push` が成功しているか確認
+
+**ファイルが表示されない場合**：
+
+1. ブランチが `main` ではなく `add-my-keyword` になっているか確認
+2. `git push` が成功しているか確認（実習3-E）
+3. GitHubのリポジトリページで，ブランチを切り替えて確認
 
 ### 評価基準（ルーブリック）
 
