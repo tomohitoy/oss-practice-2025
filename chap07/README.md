@@ -452,7 +452,7 @@ https://github.com/tomohitoy/oss-template-2025
 
 ### ステップ3-B：自分のリポジトリを「Clone」する
 
-#### 1. SSH URLをコピー
+#### 1. SSH URLをコピー（重要！）
 
 自分のGitHubリポジトリページ（Forkしたページ）で：
 
@@ -460,10 +460,23 @@ https://github.com/tomohitoy/oss-template-2025
 2. **「SSH」タブを選択**（重要！HTTPSではない）
 3. `git@github.com:...` で始まるURLをコピー
 
-例：
+**⚠️ 重要な注意事項**：
+
+- **必ず「SSH」タブを選択してください**
+- 「HTTPS」タブは選択しないでください
+- コピーするURLは `git@github.com:` で始まる必要があります
+- `https://github.com/` で始まるURLは使用できません
+
+**正しいSSH URL**：
 
 ```
-git@github.com:your-username/repository-name.git
+git@github.com:your-username/oss-template-2025.git
+```
+
+**間違ったHTTPS URL（使わない）**：
+
+```
+https://github.com/your-username/oss-template-2025.git
 ```
 
 #### 2. ターミナルを開く（または同じターミナルを使用）
@@ -514,6 +527,17 @@ git clone [コピーしたURL]
 ```bash
 git clone git@github.com:your-username/oss-template-2025.git
 ```
+
+**⚠️ エラーが出た場合**：
+
+もし以下のようなエラーが出た場合は，HTTPS URLを使ってしまっている可能性があります：
+
+```
+remote: Invalid username or token.
+fatal: Authentication failed for 'https://github.com/...'
+```
+
+この場合は，**ステップ1に戻って，SSH URLを正しくコピーし直してください**．
 
 #### 6. Cloneの完了を確認
 
@@ -869,12 +893,46 @@ To github.com:your-username/oss-template-2025.git
 
 もし以下のようなエラーが出た場合：
 
+**エラー1：「Permission denied (publickey)」**
+
 ```
 ERROR: Permission denied (publickey).
 ```
 
-- 実習2のSSH鍵の設定を確認してください
-- `ssh -T git@github.com` でテストしてみてください
+→ 実習2のSSH鍵の設定を確認してください
+→ `ssh -T git@github.com` でテストしてみてください
+
+**エラー2：「Invalid username or token」または「Authentication failed」**
+
+```
+remote: Invalid username or token.
+fatal: Authentication failed for 'https://github.com/...'
+```
+
+→ これは**HTTPS URLを使ってしまっている**ことが原因です
+→ 対処法：リモートURLをSSHに変更する必要があります
+
+リモートURLを確認：
+
+```bash
+git remote -v
+```
+
+もし `https://` で始まるURLが表示された場合は，以下のコマンドで修正してください：
+
+```bash
+git remote set-url origin git@github.com:your-username/oss-template-2025.git
+```
+
+（`your-username` は自分のGitHubユーザー名に置き換えてください）
+
+修正後，再度確認：
+
+```bash
+git remote -v
+```
+
+`git@github.com:` で始まるURLになっていればOKです．その後，再度pushしてください．
 
 ---
 
